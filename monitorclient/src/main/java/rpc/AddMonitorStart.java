@@ -1,6 +1,7 @@
 package rpc;
 
 
+import monitorcore.Mysql;
 import org.I0Itec.zkclient.ZkClient;
 
 import org.apache.hadoop.conf.Configuration;
@@ -18,7 +19,7 @@ import java.net.SocketException;
 import java.util.Enumeration;
 
 public class AddMonitorStart {
-    public static ZkClient zkClient = zkClient = new ZkClient("192.168.33.133:2181,192.168.33.134:2181,192.168.33.135:2181");;
+    //public static ZkClient zkClient = new ZkClient("192.168.33.133:2181,192.168.33.134:2181,192.168.33.135:2181");;
 
     /**
      * 获取Linux下的IP地址
@@ -55,6 +56,33 @@ public class AddMonitorStart {
     }
 
     public static void main(String[] args) throws Exception {
+
+        new Thread(){
+            Mysql mysql = new Mysql();
+            @Override
+            public void run() {
+                try {
+                    while (true){
+                        sleep(1000);
+                        mysql.addRegMachineAndHeart(getLinuxLocalIp(),"10000",String.valueOf(System.currentTimeMillis()));
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (SocketException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+
+        RPC.Builder builder = new RPC.Builder(new Configuration());
+
+        builder.setBindAddress(getLinuxLocalIp()).setPort(Integer.parseInt("10000")).setProtocol(AddMonitorInterface.class).setInstance(new AddMonitorImpl());
+
+        RPC.Server server = builder.build();
+
+        server.start();
+
+        /*
         SAXReader reader = new SAXReader();
         Document doc = reader.read(new File("../conf/monitor-core.xml"));
         //2.得到根标签
@@ -88,7 +116,7 @@ public class AddMonitorStart {
         }else{
             System.out.println("fail to setup");
         }
-
+        */
 
 
 

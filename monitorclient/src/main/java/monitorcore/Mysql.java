@@ -17,7 +17,7 @@ public class Mysql {
 
 
     static {
-        String mysql_url = "jdbc:mysql://192.168.99.73:3306/db_ssm?autoReconnect=true";
+        String mysql_url = "jdbc:mysql://192.168.99.18:3306/db_ssm?autoReconnect=true";
         //
         //com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException: Data source rejected establishment of connection,  message from server: "Too many connections"
         try {
@@ -113,7 +113,32 @@ public class Mysql {
         return copydir;
     }
 
-
+    public void addRegMachineAndHeart(String regIp, String regPort, String data) {
+        PreparedStatement psql = null;
+        try {
+            psql = mysql_con.prepareStatement("insert into regmachine (regIp,regPort,data) values(?,?,?)");
+            psql.setString(1, regIp);
+            psql.setString(2, regPort);
+            psql.setString(3, data);
+            psql.executeUpdate();
+        } catch (Exception e) {
+            try {
+                psql = mysql_con.prepareStatement("\n" +
+                        "update regmachine set regPort=?,data=? where regIp=?");
+                psql.setString(3, regIp);
+                psql.setString(1, regPort);
+                psql.setString(2, data);
+                psql.executeUpdate();
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+        }
+        try {
+            psql.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     public static void main(String[] args){
         Mysql mysql = new Mysql();
         //mysql.addEvent("localhost","add","a.b","12.12");

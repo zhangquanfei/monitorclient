@@ -74,9 +74,6 @@ public class AddMonitorImpl implements AddMonitorInterface {
                 ss = "fail";
             }
         }else if ("checkoutfile".equals(addOrDel)){
-
-
-
             if ((new File(path).isDirectory())){
                 System.out.println("isDirectoryisDirectoryisDirectoryisDirectoryisDirectory:::");
 
@@ -86,13 +83,10 @@ public class AddMonitorImpl implements AddMonitorInterface {
                // System.out.println("copy:::"+copy);
                // String copyFile = path.replace(path.substring(0, path.lastIndexOf("/")),copy);
                 System.out.println("copycopycopycopy:::"+copy);
-
                 MD5Util2 md5Util2= new MD5Util2();
                 md5Util2.mapbeifen.clear();
                 md5Util2.map.clear();
                 md5Util2.checkout(path,copy);
-
-
                 //......
             } else if ((new File(path).isFile())){
                 System.out.println("isFileisFileisFileisFileisFile:::");
@@ -102,8 +96,6 @@ public class AddMonitorImpl implements AddMonitorInterface {
                 System.out.println("copy:::"+copy);
                 String copyFile = path.replace(path.substring(0, path.lastIndexOf("/")),copy);
                 System.out.println("copyFile:::"+copyFile);
-
-
                 FileCompare fileCompare = new FileCompare();
                 fileCompare.compare(path,copyFile);
             }

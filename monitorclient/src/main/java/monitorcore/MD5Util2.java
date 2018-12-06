@@ -137,7 +137,7 @@ public class MD5Util2 {
     //驱动程序名
     static String driver = "com.mysql.jdbc.Driver";
     //URL指向要访问的数据库名mydata
-    static String url = "jdbc:mysql://192.168.99.73:3306/db_ssm?autoReconnect=true";
+    static String url = "jdbc:mysql://192.168.99.18:3306/db_ssm?autoReconnect=true";
     //MySQL配置时的用户名
     static String user = "root";
     //MySQL配置时的密码
